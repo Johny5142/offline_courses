@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "OfflineStepik Exporter",
+  "version": "0.2.8",
+  "description": "Собирает отображаемые материалы разрешённого курса в локальный stepikpack.",
+  "permissions": ["storage", "downloads", "tabs", "scripting"],
+  "host_permissions": ["https://stepik.org/*", "https://*.stepik.org/*", "https://ucarecdn.stepik.net/*"],
+  "background": { "service_worker": "src/background.js" },
+  "action": {
+    "default_title": "OfflineStepik",
+    "default_popup": "src/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://stepik.org/*", "https://*.stepik.org/*"],
+      "js": ["src/content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

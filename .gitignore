@@ -1,0 +1,24 @@
+# Gradle и Android Studio
+.gradle/
+**/build/
+local.properties
+*.iml
+.idea/
+
+# Секреты подписи Android
+*.jks
+*.keystore
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Сборки Android
+*.apk
+*.aab
+
+# Временные и системные файлы
+*.log
+.DS_Store
+Thumbs.db
+Desktop.ini

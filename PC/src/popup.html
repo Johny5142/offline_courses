@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OfflineStepik</title>
+  <style>
+    :root { color-scheme: light; font-family: Inter, "Segoe UI", system-ui, sans-serif; color: #17233d; background: #f3f6fc; }
+    * { box-sizing: border-box; }
+    body { width: 340px; margin: 0; padding: 14px; background: linear-gradient(145deg, #f4f7ff, #f6f7fb 60%, #eef3ff); }
+    .panel { padding: 16px; border: 1px solid #e3e9f5; border-radius: 18px; background: rgba(255,255,255,.96); box-shadow: 0 10px 30px rgba(37, 58, 104, .12); }
+    .brand { display: flex; align-items: center; gap: 11px; margin-bottom: 15px; }
+    .brand-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(145deg, #6551b5, #4268d6); color: white; font-size: 13px; font-weight: 800; letter-spacing: -.5px; }
+    h1 { margin: 0; font-size: 17px; line-height: 1.15; letter-spacing: -.3px; }
+    h1 small { margin-left: 5px; color: #7a849a; font-size: 10px; font-weight: 600; letter-spacing: 0; }
+    .subtitle { margin: 3px 0 0; color: #768198; font-size: 11px; }
+    .status-card { padding: 12px; border: 1px solid #e7ebf3; border-radius: 13px; background: #f7f9fd; }
+    .state-line { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; font-weight: 700; }
+    .state-dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; box-shadow: 0 0 0 3px #e8edf5; }
+    #status { color: #536078; font-size: 12px; line-height: 1.45; white-space: pre-line; overflow-wrap: anywhere; }
+    .status-card[data-status="running"] .state-dot { background: #21a675; }
+    .status-card[data-status="paused"] .state-dot { background: #d99727; }
+    .status-card[data-status="completed"] .state-dot { background: #21a675; }
+    .status-card[data-status="failed"] .state-dot { background: #d94b56; }
+    .actions { margin-top: 12px; }
+    button { min-height: 38px; padding: 9px 12px; border: 1px solid transparent; border-radius: 10px; color: #fff; font: inherit; font-size: 12px; font-weight: 650; cursor: pointer; transition: transform .12s ease, filter .12s ease, box-shadow .12s ease; }
+    button:hover:not(:disabled) { filter: brightness(1.04); transform: translateY(-1px); }
+    button:focus-visible { outline: 3px solid #a8bcff; outline-offset: 2px; }
+    button:disabled { opacity: .46; cursor: default; }
+    #start { width: 100%; background: linear-gradient(135deg, #5d50b2, #3e6fe0); box-shadow: 0 5px 12px rgba(76, 91, 194, .22); }
+    .button-row { display: flex; gap: 8px; margin-top: 7px; }
+    .button-row button { flex: 1; }
+    #pause { background: #e9eef8; border-color: #dfe5f0; color: #53617a; }
+    #stop { background: #fff; border-color: #dfe5f0; color: #66728a; }
+    #export { width: 100%; margin-top: 7px; background: #263a61; }
+    #clear { width: 100%; margin-top: 7px; border-color: #f0d3d5; background: #fff4f4; color: #a43a45; }
+    #error { min-height: 0; margin-top: 8px; color: #bb3443; font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
+    #error:empty { display: none; }
+    .hint { margin: 12px 2px 0; color: #8993a7; font-size: 10px; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <header class="brand">
+      <div class="brand-mark" aria-hidden="true">OS</div>
+      <div>
+        <h1>OfflineStepik <small>0.2.8</small></h1>
+        <p class="subtitle">Локальный экспорт курса</p>
+      </div>
+    </header>
+    <section class="status-card" aria-live="polite">
+      <div class="state-line"><span id="state-dot" class="state-dot"></span><span id="state-title">Подключение…</span></div>
+      <div id="status">Загрузка состояния…</div>
+    </section>
+    <section class="actions" aria-label="Управление сбором">
+      <button id="start">Начать сбор с текущей страницы</button>
+      <div class="button-row">
+        <button id="pause">Пауза</button>
+        <button id="stop">Остановить</button>
+      </div>
+      <button id="export">Экспортировать .stepikpack</button>
+      <button id="clear">Очистить сохранённое</button>
+    </section>
+    <div id="error" role="alert"></div>
+    <p class="hint">Оставь вкладку курса открытой, пока идёт сбор.</p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

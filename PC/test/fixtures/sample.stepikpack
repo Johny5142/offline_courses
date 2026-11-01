@@ -1,0 +1,64 @@
+{
+  "format": "stepikpack",
+  "schemaVersion": 2,
+  "packageId": "test-package",
+  "generatedAt": "2026-10-29T00:00:00.000Z",
+  "complete": true,
+  "course": {
+    "id": "course:1",
+    "title": "Тестовый курс",
+    "author": "Тестовый автор",
+    "sourceUrl": "https://stepik.org/course/1/"
+  },
+  "navigation": {
+    "sections": [
+      {
+        "id": "section:1",
+        "title": "Основы",
+        "order": 0,
+        "lessons": [
+          {
+            "id": "lesson:10",
+            "title": "1.1 Введение",
+            "url": "https://stepik.org/lesson/10",
+            "order": 0,
+            "savedCount": 2,
+            "steps": [
+              {"id": "step:10:1", "title": "1", "url": "https://stepik.org/lesson/10/step/1", "order": 1, "saved": true, "savedStepId": "step:10:1"},
+              {"id": "step:10:2", "title": "2", "url": "https://stepik.org/lesson/10/step/2", "order": 2, "saved": true, "savedStepId": "step:10:2"}
+            ]
+          }
+        ]
+      }
+    ],
+    "progress": [
+      {"id": "step:10:1", "title": "1", "url": "https://stepik.org/lesson/10/step/1", "order": 1, "saved": true, "savedStepId": "step:10:1"},
+      {"id": "step:10:2", "title": "2", "url": "https://stepik.org/lesson/10/step/2", "order": 2, "saved": true, "savedStepId": "step:10:2"}
+    ]
+  },
+  "steps": [
+    {
+      "id": "step:10:1",
+      "courseId": "course:1",
+      "title": "Введение",
+      "type": "theory",
+      "sourceUrl": "https://stepik.org/lesson/10/step/1",
+      "html": "<article><h1>Введение</h1><p>Текст урока</p></article>",
+      "text": "Введение Текст урока",
+      "options": [],
+      "order": 0
+    },
+    {
+      "id": "step:10:2",
+      "courseId": "course:1",
+      "title": "Проверка",
+      "type": "exercise",
+      "sourceUrl": "https://stepik.org/lesson/10/step/2",
+      "html": "<article><h1>Проверка</h1><p>2 + 2 = ?</p></article>",
+      "text": "Проверка 2 + 2 = ?",
+      "options": [{"id": "option-0", "text": "4"}],
+      "order": 1
+    }
+  ],
+  "report": {"status": "completed", "savedSteps": 2, "visitedPages": 2, "error": null}
+}

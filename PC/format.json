@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OfflineStepik package v2",
+  "type": "object",
+  "required": ["format", "schemaVersion", "packageId", "course", "steps"],
+  "properties": {
+    "format": { "const": "stepikpack" },
+    "schemaVersion": { "enum": [1, 2] },
+    "packageId": { "type": "string", "minLength": 1 },
+    "generatedAt": { "type": "string" },
+    "complete": { "type": "boolean" },
+    "course": {
+      "type": "object",
+      "required": ["id", "title", "sourceUrl"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "author": { "type": "string" },
+        "sourceUrl": { "type": "string" }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "sourceUrl", "html", "text", "order"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "sourceUrl": { "type": "string" },
+          "html": { "type": "string" },
+          "text": { "type": "string" },
+          "order": { "type": "integer", "minimum": 0 },
+          "type": { "enum": ["theory", "exercise"] },
+          "options": { "type": "array" }
+        }
+      }
+    },
+    "navigation": {
+      "type": "object",
+      "required": ["sections", "progress"],
+      "properties": {
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "order", "lessons"],
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "order": { "type": "integer", "minimum": 0 },
+              "lessons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["id", "title", "url", "order", "steps"],
+                  "properties": {
+                    "id": { "type": "string" },
+                    "title": { "type": "string" },
+                    "url": { "type": "string" },
+                    "order": { "type": "integer", "minimum": 0 },
+                    "savedCount": { "type": "integer", "minimum": 0 },
+                    "steps": { "$ref": "#/$defs/navigationSteps" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "progress": { "$ref": "#/$defs/navigationSteps" }
+      }
+    }
+  },
+  "$defs": {
+    "navigationSteps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "url", "order"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "url": { "type": "string" },
+          "order": { "type": "integer", "minimum": 0 },
+          "saved": { "type": "boolean" },
+          "savedStepId": { "type": ["string", "null"] }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "schemaVersion": { "const": 2 } } },
+      "then": { "required": ["navigation"] }
+    }
+  ]
+}
