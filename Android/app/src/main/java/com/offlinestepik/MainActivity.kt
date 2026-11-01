@@ -313,9 +313,13 @@ private fun CourseScreen(
         pack.steps.firstOrNull { it.id == nav.savedStepId && nav.savedStepId.isNotBlank() }
             ?: stepsByRoute[routeKey(nav.url)]
 
-    fun savedSteps(lesson: CourseLesson): List<OfflineStep> = pack.steps.filter {
-        lessonIdFromRoute(it.sourceUrl) == lesson.id.removePrefix("lesson:")
-    }.sortedBy { it.order }
+    fun savedSteps(lesson: CourseLesson): List<OfflineStep> {
+        val linkedStepIds = lesson.steps.mapNotNull { nav -> nav.savedStepId.takeIf { it.isNotBlank() } }.toSet()
+        val lessonId = lesson.id.removePrefix("lesson:")
+        return pack.steps.filter { step ->
+            step.id in linkedStepIds || lessonIdFromRoute(step.sourceUrl) == lessonId
+        }.sortedBy { it.order }
+    }
 
     Column(modifier.fillMaxSize().padding(horizontal = 16.dp)) {
         TextButton(onClick = onBack) { Text("← Все курсы") }
@@ -444,7 +448,8 @@ private fun ReaderScreen(
     val currentIndex = targets.indexOfFirst { it.step?.id == step.id }
         .takeIf { it >= 0 }
         ?: targets.indexOfFirst { routeKey(it.url) == routeKey(step.sourceUrl) }
-    val currentLessonId = lessonIdFromRoute(step.sourceUrl)
+    val currentLessonId = targets.firstOrNull { it.step?.id == step.id }?.lessonId
+        ?: lessonIdFromRoute(step.sourceUrl)
     val previous = if (currentIndex >= 0) targets.getOrNull(currentIndex - 1) else null
     val next = if (currentIndex >= 0) targets.getOrNull(currentIndex + 1) else null
 
@@ -549,8 +554,8 @@ private fun buildReaderTargets(pack: CoursePack): List<ReaderTarget> {
     fun addTarget(lessonId: String, lessonTitle: String, title: String, url: String, saved: OfflineStep?) {
         val normalizedLessonId = lessonId.removePrefix("lesson:").ifBlank { lessonIdFromRoute(url) }
         val route = routeKey(url).ifBlank { saved?.let { routeKey(it.sourceUrl) }.orEmpty() }
-        if (route.isNotBlank() && route in usedRoutes) return
         if (saved != null && saved.id in usedStepIds) return
+        if (saved == null && route.isNotBlank() && route in usedRoutes) return
         saved?.let {
             usedStepIds += it.id
             routeKey(it.sourceUrl).takeIf(String::isNotBlank)?.let(usedRoutes::add)
